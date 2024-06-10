@@ -1,2 +1,2 @@
 [webservers]
-your_server_ip ansible_user=your_user ansible_ssh_pass="{{ ansible_ssh_pass }}"
+48.218.205.78 ansible_user=adminuser ansible_ssh_pass="{{ ansible_ssh_pass }}"
