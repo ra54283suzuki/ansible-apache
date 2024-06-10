@@ -1,10 +1,15 @@
 ---
 - name: Install Apache
-  hosts: all
+  hosts: webservers
   become: yes
+  become_user: root
   tasks:
     - name: Ensure Apache is installed
-      apt:
-        name: apache2
+      yum:
+        name: httpd
         state: present
-        update_cache: yes
+    - name: Start and enable Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
