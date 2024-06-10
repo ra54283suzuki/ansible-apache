@@ -7,24 +7,26 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # これはGitHub ActionsランナーでUbuntuを使用することを意味します
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2  # リポジトリの内容をGitHub Actionsランナーにチェックアウトします
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v2  # GitHub ActionsランナーにPythonをセットアップします
       with:
         python-version: '3.x'
 
     - name: Install Ansible
       run: |
-        python -m pip install --upgrade pip
-        pip install ansible
+        python -m pip install --upgrade pip  # GitHub Actionsランナーにpipをインストール/アップグレードします
+        pip install ansible  # GitHub ActionsランナーにAnsibleをインストールします
 
     - name: Run Ansible Playbook
       env:
-        ANSIBLE_HOST_KEY_CHECKING: 'false'
+        ANSIBLE_HOST_KEY_CHECKING: 'false'  # SSHホストキーのチェックを無効にします
+        ANSIBLE_SSH_PASS: ${{ secrets.SSH_PASSWORD }}  # GitHub Secretsからパスワードを環境変数として渡します
       run: |
-        ansible-playbook -i inventory --extra-vars "ansible_ssh_pass=${{ secrets.SSH_PASSWORD }}" playbook.yml
+        ansible-playbook -i inventory playbook.yml
+

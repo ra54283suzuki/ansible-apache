@@ -1,2 +1,2 @@
 [webservers]
-48.218.205.78 ansible_user=adminuser ansible_ssh_pass=Password1234!
+48.218.205.78 ansible_user=adminuser ansible_ssh_pass="{{ lookup('env', 'ANSIBLE_SSH_PASS') }}"
