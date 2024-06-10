@@ -23,10 +23,14 @@ jobs:
         python -m pip install --upgrade pip  # GitHub Actionsランナーにpipをインストール/アップグレード
         pip install ansible  # GitHub ActionsランナーにAnsibleをインストール
 
+    - name: Set up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # GitHub SecretsからSSH秘密鍵を配置
+        chmod 600 ~/.ssh/id_rsa
+
     - name: Run Ansible Playbook
       env:
         ANSIBLE_HOST_KEY_CHECKING: 'false'  # SSHホストキーのチェックを無効化
       run: |
-        ansible-playbook -i inventory --extra-vars "ansible_ssh_pass=${{ secrets.SSH_PASSWORD }}" playbook.yml  # Playbookを実行
-
-
+        ansible-playbook -i inventory playbook.yml
